@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+    <!--
+        zhangsan:
+            图书管理员
+            用户管理员
+            ${}
+            #{}
+            如果在shiro的标签中会默认把以上两种符号作为string字符串进行匹配
+    -->
+    <shiro:hasAllRoles name="book_manager,user_manager">
+        <ul th:each="menuName:${menuList}">
+            <!--
+                1.在controller层直接添加一个属性url===>menuName.url
+                2.把menuName直接做成@RequestMapping的地址
+                3.在地址中追加id===》在controller接收id属性，进行判断
+                如果id和从数据库查出的角色id一样，则直接跳转到页面
+            -->
+            <li><a th:href="@{turnPage(menuName=${menuName})}" th:text="${menuName}"></a></li>
+        </ul>
+    </shiro:hasAllRoles>
+</body>
+</html>
